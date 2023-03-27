@@ -1,7 +1,3 @@
-<script>
-	import Button from '$lib/components/button.svelte';
-</script>
-
 <main>
 	<h1>Login</h1>
 	<form action="?/login" method="POST" class="register-form">
@@ -9,7 +5,7 @@
 		<input type="email" name="email" id="email" />
 		<label for="password">Password</label>
 		<input type="password" name="password" id="password" />
-		<Button text="Login" />
+		<button class="btn">Submit</button>
 	</form>
 	<div>
 		<span>Don't have an account?</span>

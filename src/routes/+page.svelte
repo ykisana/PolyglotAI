@@ -1,9 +1,8 @@
 <script lang="ts">
-	import Button from '$lib/components/button.svelte';
 	import type { ChatCompletionRequestMessage } from 'openai';
 	import type { PageData } from './$types';
-	import { SSE } from 'sse.js';
 	import { getEventSource, messageType } from '$lib/util/EventSource';
+	import ChatBubble from '$lib/components/ChatBubble.svelte';
 
 	export let data: PageData;
 
@@ -65,21 +64,26 @@
 	}
 </script>
 
-<main>
-	Active Session from {data.session?.user.email}
-	<form action="/logout" method="POST">
-		<Button text="Logout" />
-	</form>
+Active Session from {data.session?.user.email}
+<form action="/logout" method="POST">
+	<button class="btn">Log Out</button>
+</form>
+<div class="flex flex-col">
 	{#each chatMessages as message}
-		<p>{message.content}</p>
+		<ChatBubble role={message.role}>{message.content}</ChatBubble>
 	{/each}
+</div>
 
-	<form
-		on:submit|preventDefault={() => {
-			submitChat();
-		}}
-	>
-		<input type="text" bind:value={query} />
-		<button type="submit">Send</button>
-	</form>
-</main>
+<form
+	on:submit|preventDefault={() => {
+		submitChat();
+	}}
+>
+	<input
+		type="text"
+		placeholder="Type here"
+		bind:value={query}
+		class="input input-bordered input-primary w-full max-w-x"
+	/>
+	<button type="submit" class="btn">Send</button>
+</form>

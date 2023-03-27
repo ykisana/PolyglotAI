@@ -1,4 +1,6 @@
 <script lang="ts">
+	import '../app.css';
+
 	import { invalidate } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import type { LayoutData } from './$types';
@@ -20,4 +22,6 @@
 	<title>PolyglotAI</title>
 </svelte:head>
 
-<slot />
+<main>
+	<slot />
+</main>
