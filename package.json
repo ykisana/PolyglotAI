@@ -33,5 +33,10 @@
 		"vite": "^4.0.0",
 		"vitest": "^0.25.3"
 	},
-	"type": "module"
+	"type": "module",
+	"dependencies": {
+		"gpt3-tokenizer": "^1.1.5",
+		"openai": "^3.2.1",
+		"sse.js": "^0.6.1"
+	}
 }
