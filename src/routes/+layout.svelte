@@ -4,6 +4,7 @@
 	import { invalidate } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import type { LayoutData } from './$types';
+	import SideBarView from '$lib/components/SideBarView.svelte';
 
 	export let data: LayoutData;
 
@@ -23,5 +24,5 @@
 </svelte:head>
 
 <main>
-	<slot />
+	<SideBarView><slot /></SideBarView>
 </main>

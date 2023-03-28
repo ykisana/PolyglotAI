@@ -1,12 +1,14 @@
 <script lang="ts">
-	export let role: string;
-	console.log(role);
+	import type { ChatCompletionRequestMessage } from 'openai';
 
-	const position = role == 'assistant' ? 'self-start' : 'self-end';
+	export let message: ChatCompletionRequestMessage;
+
+	//const position = role == 'assistant' ? 'self-start' : 'self-end';
+	const position = message.role == 'assistant' ? 'chat-start' : 'chat-end';
 </script>
 
 <div class={`chat ${position}`}>
 	<div class="chat-bubble">
-		<slot />
+		{message.content}
 	</div>
 </div>

@@ -1,10 +1,7 @@
 <script lang="ts">
 	import type { ChatCompletionRequestMessage } from 'openai';
-	import type { PageData } from './$types';
 	import { getEventSource, messageType } from '$lib/util/EventSource';
 	import ChatBubble from '$lib/components/ChatBubble.svelte';
-
-	export let data: PageData;
 
 	interface Vocabulary {
 		key: String;
@@ -64,17 +61,14 @@
 	}
 </script>
 
-Active Session from {data.session?.user.email}
-<form action="/logout" method="POST">
-	<button class="btn">Log Out</button>
-</form>
-<div class="flex flex-col">
+<div class="flex flex-col w-full overflow-scroll">
 	{#each chatMessages as message}
-		<ChatBubble role={message.role}>{message.content}</ChatBubble>
+		<ChatBubble {message} />
 	{/each}
 </div>
 
 <form
+	class="flex gap-2 w-full max-w-x"
 	on:submit|preventDefault={() => {
 		submitChat();
 	}}
@@ -83,7 +77,7 @@ Active Session from {data.session?.user.email}
 		type="text"
 		placeholder="Type here"
 		bind:value={query}
-		class="input input-bordered input-primary w-full max-w-x"
+		class="input input-bordered input-primary w-full"
 	/>
 	<button type="submit" class="btn">Send</button>
 </form>
