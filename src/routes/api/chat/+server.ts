@@ -6,7 +6,7 @@ import {
 	type CreateChatCompletionRequest
 } from 'openai';
 import type { RequestHandler } from './$types';
-import { getTokens } from '$lib/tokenizer';
+//import { getTokens } from '$lib/util/tokenizer';
 import { json } from '@sveltejs/kit';
 import { chatPrompt } from '$lib/util/Prompts';
 
@@ -33,10 +33,10 @@ export const POST: RequestHandler = async ({ request }) => {
 
 		let tokenCount = 0;
 
-		reqMessages.forEach((msg) => {
-			const tokens = getTokens(msg.content);
-			tokenCount += tokens;
-		});
+		// reqMessages.forEach((msg) => {
+		// 	const tokens = getTokens(msg.content);
+		// 	tokenCount += tokens;
+		// });
 
 		const moderationRes = await fetch('https://api.openai.com/v1/moderations', {
 			headers: {
