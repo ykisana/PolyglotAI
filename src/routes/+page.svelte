@@ -29,6 +29,7 @@
 		eventSource.addEventListener('error', handleError);
 		eventSource.addEventListener('message', (e) => {
 			try {
+				loading = false;
 				if (e.data === '[DONE]') {
 					chatMessages = [...chatMessages, { role: 'assistant', content: answer }];
 					const vocabEventSource = getEventSource(chatMessages, messageType.VOCAB);
@@ -63,8 +64,14 @@
 
 <div class="flex flex-col w-full overflow-scroll">
 	{#each chatMessages as message}
-		<ChatBubble {message} />
+		<ChatBubble role={message.role} message={message.content} />
 	{/each}
+	{#if answer}
+		<ChatBubble role="assistant" message={answer} />
+	{/if}
+	{#if loading}
+		<ChatBubble role="assistant" message="Loading.." />
+	{/if}
 </div>
 
 <form
