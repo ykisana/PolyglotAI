@@ -6,7 +6,8 @@
 
 	interface MessageWithVocab {
 		message: ChatCompletionRequestMessage;
-		vocab: Vocabulary[];
+		vocab?: Vocabulary[];
+		isLoadingVocab?: boolean;
 	}
 
 	let query: string = '';
@@ -19,6 +20,10 @@
 	const submitChat = async () => {
 		loading = true;
 		chatMessages = [...chatMessages, { role: 'user', content: query }];
+		messagesWithVocab = [
+			...messagesWithVocab,
+			{ message: chatMessages.at(-1) } as MessageWithVocab
+		];
 
 		const eventSource = getEventSource(chatMessages, messageType.CHAT);
 		query = '';
@@ -29,13 +34,14 @@
 				if (e.data === '[DONE]') {
 					chatMessages = [...chatMessages, { role: 'assistant', content: answer }];
 					answer = '';
-					const vocab = (await getVocab([chatMessages.at(-1)], messageType.VOCAB)) as Vocabulary[];
-					console.log(vocab);
 					messagesWithVocab = [
 						...messagesWithVocab,
-						{ message: chatMessages.at(-1), vocab: vocab } as MessageWithVocab
+						{ message: chatMessages.at(-1), isLoadingVocab: true } as MessageWithVocab
 					];
 
+					const vocab = (await getVocab([chatMessages.at(-1)], messageType.VOCAB)) as Vocabulary[];
+					messagesWithVocab[messagesWithVocab.length - 1].vocab = vocab;
+					messagesWithVocab[messagesWithVocab.length - 1].isLoadingVocab = false;
 					console.log(messagesWithVocab);
 					return;
 				}
@@ -63,8 +69,13 @@
 </script>
 
 <div class="flex flex-col w-full overflow-scroll">
-	{#each chatMessages as message}
-		<ChatBubble role={message.role} message={message.content} />
+	{#each messagesWithVocab as message}
+		<ChatBubble
+			role={message.message.role}
+			message={message.message.content}
+			vocab={message.vocab}
+			isLoadingVocab={message.isLoadingVocab}
+		/>
 	{/each}
 	{#if answer}
 		<ChatBubble role="assistant" message={answer} />
