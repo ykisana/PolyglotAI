@@ -1,16 +1,12 @@
 <script lang="ts">
 	import type { ChatCompletionRequestMessage } from 'openai';
-	import { getEventSource, messageType } from '$lib/util/EventSource';
+	import { getEventSource, messageType, type Vocabulary } from '$lib/util/EventSource';
 	import ChatBubble from '$lib/components/ChatBubble.svelte';
-
-	interface Vocabulary {
-		key: String;
-		value: String;
-	}
+	import { getVocab } from '$lib/util/GetVocab';
 
 	interface MessageWithVocab {
 		message: ChatCompletionRequestMessage;
-		vocab: Vocabulary;
+		vocab: Vocabulary[];
 	}
 
 	let query: string = '';
@@ -27,16 +23,20 @@
 		const eventSource = getEventSource(chatMessages, messageType.CHAT);
 		query = '';
 		eventSource.addEventListener('error', handleError);
-		eventSource.addEventListener('message', (e) => {
+		eventSource.addEventListener('message', async (e) => {
 			try {
 				loading = false;
 				if (e.data === '[DONE]') {
 					chatMessages = [...chatMessages, { role: 'assistant', content: answer }];
-					const vocabEventSource = getEventSource(chatMessages, messageType.VOCAB);
-					vocabEventSource.addEventListener('error', handleError);
-					vocabEventSource.stream();
-
 					answer = '';
+					const vocab = (await getVocab([chatMessages.at(-1)], messageType.VOCAB)) as Vocabulary[];
+					console.log(vocab);
+					messagesWithVocab = [
+						...messagesWithVocab,
+						{ message: chatMessages.at(-1), vocab: vocab } as MessageWithVocab
+					];
+
+					console.log(messagesWithVocab);
 					return;
 				}
 

@@ -8,7 +8,8 @@ import {
 import type { RequestHandler } from './$types';
 //import { getTokens } from '$lib/util/tokenizer';
 import { json } from '@sveltejs/kit';
-import { chatPrompt } from '$lib/util/Prompts';
+import { chatPrompt, vocabPrompt } from '$lib/util/Prompts';
+import { messageType } from '$lib/util/EventSource';
 
 export const POST: RequestHandler = async ({ request }) => {
 	try {
@@ -55,7 +56,14 @@ export const POST: RequestHandler = async ({ request }) => {
 			throw new Error('Query flagged by OpenAI');
 		}
 
-		const prompt = chatPrompt;
+		let prompt = chatPrompt;
+		let stream = true;
+
+		if (requestData.type === messageType.VOCAB) {
+			prompt = vocabPrompt;
+			stream = false;
+		}
+
 		if (tokenCount >= 4000) {
 			throw new Error('Query too large');
 		}
@@ -69,7 +77,7 @@ export const POST: RequestHandler = async ({ request }) => {
 			model: 'gpt-3.5-turbo',
 			messages,
 			temperature: 0.9,
-			stream: true
+			stream: stream
 		};
 
 		const chatResponse = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -91,8 +99,8 @@ export const POST: RequestHandler = async ({ request }) => {
 				'Content-Type': 'text/event-stream'
 			}
 		});
-	} catch (err) {
+	} catch (err: any) {
 		console.log(err);
-		return json({ error: err }, { status: 510 });
+		return json({ error: err.message }, { status: 510 });
 	}
 };

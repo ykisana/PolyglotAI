@@ -6,6 +6,11 @@ export enum messageType {
 	VOCAB
 }
 
+export interface Vocabulary {
+	word: String;
+	definition: String;
+}
+
 export function getEventSource(messages: ChatCompletionRequestMessage[], type: messageType) {
 	return new SSE('/api/chat', {
 		headers: {

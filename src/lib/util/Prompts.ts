@@ -7,4 +7,5 @@ providing these 4 things in this order:
 
 export const vocabPrompt = `From the following string, 
 give me a javascript list of objects, 
-they key should be the japanese word, the value should be the english word: `;
+they word should be the japanese word, the definition should be the english word. 
+Here is an example of the format I need, but for Spanish, [{ "word": Hola, "definition": Hello }] `;
