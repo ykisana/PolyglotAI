@@ -4,8 +4,8 @@
 	import { invalidate } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import type { LayoutData } from './$types';
-	import SideBarView from '$lib/components/DesktopView.svelte';
-	import MobileView from '$lib/components/MobileView.svelte';
+	import SideBarView from '$lib/components/SideBarView.svelte';
+	import MobileNav from '$lib/components/MobileNav.svelte';
 
 	export let data: LayoutData;
 
@@ -24,13 +24,14 @@
 	<title>PolyglotAI</title>
 </svelte:head>
 
-<div class="navbar bg-base-100">
-	<div class="navbar-start" />
-	<div class="navbar-center">
-		<a class="btn btn-ghost normal-case text-xl">PolyglotAI</a>
+<main class="relative">
+	<div class="navbar bg-base-100 fixed">
+		<div class="navbar-start" />
+		<div class="navbar-center">
+			<a class="btn btn-ghost normal-case text-xl">PolyglotAI</a>
+		</div>
+		<div class="navbar-end" />
 	</div>
-</div>
-<main>
 	<SideBarView><slot /></SideBarView>
-	<MobileView />
+	<MobileNav />
 </main>

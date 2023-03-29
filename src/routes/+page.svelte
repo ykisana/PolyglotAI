@@ -87,7 +87,7 @@
 </div>
 
 <form
-	class="flex gap-2 w-full max-w-x"
+	class="flex gap-2 w-full max-w-x pb-2"
 	on:submit|preventDefault={() => {
 		submitChat();
 	}}
