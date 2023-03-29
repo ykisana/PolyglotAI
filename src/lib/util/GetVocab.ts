@@ -1,6 +1,6 @@
 import json5 from 'json5';
 
-export async function getVocab(message, type) {
+export async function getVocab(message: any, type: any) {
 	console.log(message);
 	try {
 		const response = await fetch('/api/chat', {
@@ -20,7 +20,7 @@ export async function getVocab(message, type) {
 	}
 }
 
-function convertToVocabList(text) {
+function convertToVocabList(text: any) {
 	console.log(text);
 	console.log(typeof text);
 

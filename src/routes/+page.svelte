@@ -1,8 +1,8 @@
 <script lang="ts">
 	import type { ChatCompletionRequestMessage } from 'openai';
+	import { getVocab } from '$lib/util/GetVocab';
 	import { getEventSource, messageType, type Vocabulary } from '$lib/util/EventSource';
 	import ChatBubble from '$lib/components/ChatBubble.svelte';
-	import { getVocab } from '$lib/util/GetVocab';
 
 	interface MessageWithVocab {
 		message: ChatCompletionRequestMessage;
