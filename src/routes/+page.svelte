@@ -54,6 +54,7 @@
 				}
 			} catch (err) {
 				console.log(err);
+				messagesWithVocab[messagesWithVocab.length - 1].isLoadingVocab = false;
 			}
 		});
 		eventSource.stream();

@@ -1,4 +1,7 @@
+import json5 from 'json5';
+
 export async function getVocab(message, type) {
+	console.log(message);
 	try {
 		const response = await fetch('/api/chat', {
 			headers: {
@@ -18,10 +21,18 @@ export async function getVocab(message, type) {
 }
 
 function convertToVocabList(text) {
+	console.log(text);
+	console.log(typeof text);
+
+	const arrStartIndex = text.indexOf('[');
+	const arrEndIndex = text.lastIndexOf(']') + 1;
+	const arr = text.substring(arrStartIndex, arrEndIndex);
+
 	try {
-		const parsed = JSON.parse(text);
+		const parsed = json5.parse(arr.trim());
 		return parsed;
 	} catch (error) {
+		console.log(error);
 		throw new Error('Error converting to JSON');
 	}
 }
