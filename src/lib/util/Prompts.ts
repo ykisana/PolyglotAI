@@ -10,6 +10,7 @@ export const vocabPrompt = `From the following string,
 give me a javascript list of objects, 
 they should be the each japanese word, the definition should be the english word. 
 Try to find the japanese words, if you have trouble finding the japanese words, still make attempt.
-If there are no japanese words in the prompt, return an empty array.
+When you encounter punctuation or special characters, ignore them and make an attempt.
+if no japanese words,  return an empty array.
 Here is an example of the format I need, but for Spanish, 
 [{ "word": "Hola", "definition": "Hello" }, { "word": "cómo", "definition": "how" }] { "word": "estás", "definition": "to be" }]`;
