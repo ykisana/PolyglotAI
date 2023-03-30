@@ -38,6 +38,10 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@fortawesome/fontawesome-svg-core": "^6.4.0",
+		"@fortawesome/free-regular-svg-icons": "^6.4.0",
+		"@fortawesome/free-solid-svg-icons": "^6.4.0",
+		"@fortawesome/svelte-fontawesome": "^0.2.0",
 		"@sveltejs/adapter-vercel": "^2.4.1",
 		"daisyui": "^2.51.5",
 		"gpt3-tokenizer": "^1.1.5",
