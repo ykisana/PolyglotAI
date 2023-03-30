@@ -9,7 +9,7 @@ import type { RequestHandler } from './$types';
 //import { getTokens } from '$lib/util/tokenizer';
 import { json } from '@sveltejs/kit';
 import { chatPrompt, vocabPrompt } from '$lib/util/Prompts';
-import { messageType } from '$lib/util/EventSource';
+import { messageType } from '$lib/store/ChatManager';
 
 export const POST: RequestHandler = async ({ request }) => {
 	try {

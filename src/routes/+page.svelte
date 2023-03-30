@@ -1,48 +1,24 @@
 <script lang="ts">
-	import type { ChatCompletionRequestMessage } from 'openai';
-	import { getVocab } from '$lib/util/GetVocab';
-	import { getEventSource, messageType, type Vocabulary } from '$lib/util/EventSource';
+	import { createEventSource } from '$lib/util/EventSource';
 	import ChatBubble from '$lib/components/ChatBubble.svelte';
+	import { ChatManager, messageType } from '$lib/store/ChatManager';
 
-	interface MessageWithVocab {
-		message: ChatCompletionRequestMessage;
-		vocab?: Vocabulary[];
-		isLoadingVocab?: boolean;
-	}
-
-	let query: string = '';
-	let answer: string = '';
-	let loading: boolean = false;
-
-	let chatMessages: ChatCompletionRequestMessage[] = [];
-	let messagesWithVocab: MessageWithVocab[] = [];
-
+	const chatManager = new ChatManager();
+	const { messagesWithVocab } = chatManager;
 	const submitChat = async () => {
-		loading = true;
-		chatMessages = [...chatMessages, { role: 'user', content: query }];
-		messagesWithVocab = [
-			...messagesWithVocab,
-			{ message: chatMessages.at(-1) } as MessageWithVocab
-		];
+		chatManager.loading = true;
+		chatManager.addUserMessage();
 
-		const eventSource = getEventSource(chatMessages, messageType.CHAT);
-		query = '';
-		eventSource.addEventListener('error', handleError);
+		const eventSource = createEventSource(chatManager.chatMessages, messageType.CHAT);
+
+		eventSource.addEventListener('error', chatManager.handleError);
 		eventSource.addEventListener('message', async (e) => {
 			try {
-				loading = false;
+				chatManager.loading = false;
 				if (e.data === '[DONE]') {
-					chatMessages = [...chatMessages, { role: 'assistant', content: answer }];
-					answer = '';
-					messagesWithVocab = [
-						...messagesWithVocab,
-						{ message: chatMessages.at(-1), isLoadingVocab: true } as MessageWithVocab
-					];
-
-					const vocab = (await getVocab([chatMessages.at(-1)], messageType.VOCAB)) as Vocabulary[];
-					messagesWithVocab[messagesWithVocab.length - 1].vocab = vocab;
-					messagesWithVocab[messagesWithVocab.length - 1].isLoadingVocab = false;
-					console.log(messagesWithVocab);
+					chatManager.addAssistantMessage();
+					await chatManager.addVocab();
+					console.log(chatManager.messagesWithVocab);
 					return;
 				}
 
@@ -50,27 +26,18 @@
 				const [{ delta }] = completionResponse.choices;
 
 				if (delta.content) {
-					answer = (answer ?? '') + delta.content;
+					chatManager.answer = (chatManager.answer ?? '') + delta.content;
 				}
 			} catch (err) {
-				console.log(err);
-				messagesWithVocab[messagesWithVocab.length - 1].isLoadingVocab = false;
+				chatManager.handleVocabError(err);
 			}
 		});
 		eventSource.stream();
 	};
-
-	function handleError<T>(err: T) {
-		loading = false;
-		query = '';
-		answer = '';
-
-		console.log(err);
-	}
 </script>
 
 <div class="flex flex-col w-full overflow-scroll">
-	{#each messagesWithVocab as message}
+	{#each $messagesWithVocab as message}
 		<ChatBubble
 			role={message.message.role}
 			message={message.message.content}
@@ -78,11 +45,11 @@
 			isLoadingVocab={message.isLoadingVocab}
 		/>
 	{/each}
-	{#if answer}
-		<ChatBubble role="assistant" message={answer} />
+	{#if chatManager.answer}
+		<ChatBubble role="assistant" message={chatManager.answer} />
 	{/if}
-	{#if loading}
-		<ChatBubble role="assistant" message="Loading.." />
+	{#if chatManager.loading}
+		<ChatBubble role="assistant" message="Loading..." />
 	{/if}
 </div>
 
@@ -95,7 +62,7 @@
 	<input
 		type="text"
 		placeholder="Type here"
-		bind:value={query}
+		bind:value={chatManager.query}
 		class="input input-bordered input-primary w-full"
 	/>
 	<button type="submit" class="btn">Send</button>

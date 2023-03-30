@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Vocabulary } from '$lib/util/EventSource';
+	import type { Vocabulary } from '$lib/store/ChatManager';
 
 	export let message: string;
 	export let role: string;
