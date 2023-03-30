@@ -1,4 +1,4 @@
-<div class="rounded-lg shadow bg-base-200 drawer drawer-mobile">
+<div class="shadow bg-base-200 drawer drawer-mobile">
 	<input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
 	<div class="flex flex-col items-center justify-end gap-2 drawer-content p-2 lg:pb-0 pb-16">
 		<slot />

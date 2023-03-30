@@ -24,14 +24,22 @@
 	<title>PolyglotAI</title>
 </svelte:head>
 
-<main class="relative">
-	<div class="navbar bg-base-100 fixed">
+<main class="relative grid grid-rows-layout">
+	<div class="navbar bg-base-100 absolute w-full z-10">
 		<div class="navbar-start" />
 		<div class="navbar-center">
 			<a class="btn btn-ghost normal-case text-xl">PolyglotAI</a>
 		</div>
 		<div class="navbar-end" />
 	</div>
-	<SideBarView><slot /></SideBarView>
-	<MobileNav />
+	<div class="row-start-1">
+		<SideBarView><slot /></SideBarView>
+		<MobileNav />
+	</div>
 </main>
+
+<style>
+	.grid-rows-layout {
+		grid-template-rows: auto 1fr;
+	}
+</style>

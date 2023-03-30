@@ -5,6 +5,10 @@
 
 	const chatManager = new ChatManager();
 	const { messagesWithVocab } = chatManager;
+	const scrollToBottom = (node: HTMLDivElement) => {
+		node.scroll({ top: node.scrollHeight, behavior: 'smooth' });
+	};
+	let chatElement: HTMLDivElement;
 	const submitChat = async () => {
 		chatManager.loading = true;
 		chatManager.addUserMessage();
@@ -19,6 +23,7 @@
 					chatManager.addAssistantMessage();
 					await chatManager.addVocab();
 					console.log(chatManager.messagesWithVocab);
+					scrollToBottom(chatElement);
 					return;
 				}
 
@@ -27,6 +32,7 @@
 
 				if (delta.content) {
 					chatManager.answer = (chatManager.answer ?? '') + delta.content;
+					scrollToBottom(chatElement);
 				}
 			} catch (err) {
 				chatManager.handleVocabError(err);
@@ -36,7 +42,7 @@
 	};
 </script>
 
-<div class="flex flex-col w-full overflow-scroll">
+<div class="flex flex-col w-full overflow-scroll" bind:this={chatElement}>
 	{#each $messagesWithVocab as message}
 		<ChatBubble
 			role={message.message.role}
