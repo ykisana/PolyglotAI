@@ -13,7 +13,9 @@
 				goto(menuItem.url);
 			}}
 		>
-			<FontAwesomeIcon icon={menuItem.icon} />
+			<div>
+				<FontAwesomeIcon icon={menuItem.icon} />
+			</div>
 		</button>
 	{/each}
 </div>

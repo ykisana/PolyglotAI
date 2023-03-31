@@ -17,7 +17,10 @@
 				{#each MenuItems as menuItem}
 					<li>
 						<a href={menuItem.url} class:active={$page.url.pathname === menuItem.url}
-							><FontAwesomeIcon icon={menuItem.icon} />{menuItem.title}</a
+							><div>
+								<FontAwesomeIcon icon={menuItem.icon} />
+							</div>
+							{menuItem.title}</a
 						>
 					</li>
 				{/each}

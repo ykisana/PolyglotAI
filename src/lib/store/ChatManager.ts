@@ -1,5 +1,5 @@
 import type { ChatCompletionRequestMessage } from 'openai';
-import { getVocab } from '../util/GetVocab';
+import { getVocab } from '$lib/util/GetVocab';
 import { writable } from 'svelte/store';
 
 export interface MessageWithVocab {

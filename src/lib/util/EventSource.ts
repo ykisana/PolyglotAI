@@ -1,6 +1,6 @@
 import type { ChatCompletionRequestMessage } from 'openai';
 import { SSE } from 'sse.js';
-import type { messageType } from '../store/ChatManager';
+import type { messageType } from '$lib/store/ChatManager';
 
 export function createEventSource(messages: ChatCompletionRequestMessage[], type: messageType) {
 	return new SSE('/api/chat', {

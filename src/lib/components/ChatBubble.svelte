@@ -6,7 +6,6 @@
 	export let vocab: Vocabulary[] | undefined = undefined;
 	export let isLoadingVocab: boolean = false;
 
-	//const position = role == 'assistant' ? 'self-start' : 'self-end';
 	const position = role == 'assistant' ? 'chat-start' : 'chat-end';
 </script>
 
