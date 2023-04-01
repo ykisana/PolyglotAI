@@ -1,6 +1,6 @@
 <main>
 	<h1>Register</h1>
-	<form action="?/register" method="POST" class="register-form">
+	<form method="POST" class="register-form">
 		<label for="email">Email</label>
 		<input type="email" name="email" id="email" />
 		<label for="password">Password</label>

@@ -40,6 +40,8 @@
 		"@fortawesome/free-regular-svg-icons": "^6.4.0",
 		"@fortawesome/free-solid-svg-icons": "^6.4.0",
 		"@fortawesome/svelte-fontawesome": "^0.2.0",
+		"@supabase/auth-helpers-sveltekit": "^0.9.0",
+		"@supabase/supabase-js": "^2.13.1",
 		"@sveltejs/adapter-vercel": "^2.4.1",
 		"daisyui": "^2.51.5",
 		"gpt3-tokenizer": "^1.1.5",
