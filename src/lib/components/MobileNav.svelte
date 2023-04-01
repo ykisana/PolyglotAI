@@ -5,7 +5,7 @@
 	import { page } from '$app/stores';
 </script>
 
-<div class="btm-nav lg:hidden">
+<div class="btm-nav md:hidden relative">
 	{#each MenuItems as menuItem}
 		<button
 			class:active={$page.url.pathname === menuItem.url}

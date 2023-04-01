@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { invalidate } from '$app/navigation';
 	import { onMount } from 'svelte';
-	import type { LayoutData } from './$types';
 	import '../app.css';
 
 	import type { PageData } from './$types';

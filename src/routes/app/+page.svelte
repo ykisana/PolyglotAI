@@ -42,34 +42,39 @@
 	};
 </script>
 
-<div class="flex flex-col w-full overflow-scroll" bind:this={chatElement}>
-	{#each $messagesWithVocab as message}
-		<ChatBubble
-			role={message.message.role}
-			message={message.message.content}
-			vocab={message.vocab}
-			isLoadingVocab={message.isLoadingVocab}
-		/>
-	{/each}
-	{#if chatManager.answer}
-		<ChatBubble role="assistant" message={chatManager.answer} />
-	{/if}
-	{#if chatManager.loading}
-		<ChatBubble role="assistant" message="Loading..." />
-	{/if}
-</div>
+<main class="w-full h-full p-2 flex flex-col">
+	<div
+		class="overflow-y-auto h-[calc(100vh-12rem)] md:h-[calc(100vh-9rem)]"
+		bind:this={chatElement}
+	>
+		{#each $messagesWithVocab as message}
+			<ChatBubble
+				role={message.message.role}
+				message={message.message.content}
+				vocab={message.vocab}
+				isLoadingVocab={message.isLoadingVocab}
+			/>
+		{/each}
+		{#if chatManager.answer}
+			<ChatBubble role="assistant" message={chatManager.answer} />
+		{/if}
+		{#if chatManager.loading}
+			<ChatBubble role="assistant" message="Loading..." />
+		{/if}
+	</div>
 
-<form
-	class="flex gap-2 w-full max-w-x pb-2"
-	on:submit|preventDefault={() => {
-		submitChat();
-	}}
->
-	<input
-		type="text"
-		placeholder="Type here"
-		bind:value={chatManager.query}
-		class="input input-bordered input-primary w-full"
-	/>
-	<button type="submit" class="btn">Send</button>
-</form>
+	<form
+		class="flex gap-2 w-full max-w-x py-2"
+		on:submit|preventDefault={() => {
+			submitChat();
+		}}
+	>
+		<input
+			type="text"
+			placeholder="Type here"
+			bind:value={chatManager.query}
+			class="input input-bordered input-primary w-full"
+		/>
+		<button type="submit" class="btn">Send</button>
+	</form>
+</main>

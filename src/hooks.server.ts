@@ -28,6 +28,12 @@ export const handle: Handle = async ({ event, resolve }) => {
 		}
 	}
 
+	if (session) {
+		if (event.url.pathname.startsWith('/login') || event.url.pathname.startsWith('/signup')) {
+			throw redirect(303, '/app');
+		}
+	}
+
 	return resolve(event, {
 		/**
 		 * There´s an issue with `filterSerializedResponseHeaders` not working when using `sequence`

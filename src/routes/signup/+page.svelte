@@ -19,11 +19,6 @@
 
 <main class="h-full w-full">
 	<div class="flex h-full justify-center items-center">
-		<CardForm title={'Login'} {inputs}>
-			<div class="text-xs self-center">
-				<span>Don't have an account?</span>
-				<a href="/signup">Sign Up Now</a>
-			</div>
-		</CardForm>
+		<CardForm title={'Sign Up'} {inputs} />
 	</div>
 </main>
