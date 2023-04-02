@@ -7,7 +7,10 @@
 <div class="navbar bg-base-100">
 	<div class="navbar-start">
 		<div>
-			<label class="label label-text text-xs p-1" for="select">Language:</label>
+			<label class="label label-text text-xs p-1" for="select"
+				>Language: {$selectedLanguage.language}</label
+			>
+			<!-- <Select items={languages} bind:value={$selectedLanguage} /> -->
 			<select
 				id="select"
 				bind:value={$selectedLanguage}
