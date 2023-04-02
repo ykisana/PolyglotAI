@@ -1,6 +1,4 @@
-import { languages, type Language } from '$lib/util/Languages';
-import { writable } from 'svelte/store';
+import { languages } from '$lib/util/Languages';
+import { persistedStore } from './PersistedStore';
 
-export const selectedLanguage = writable<Language>(languages[0]);
-
-//TODO: STORE VALUE TO LOCAL
+export const selectedLanguage = persistedStore('selectedLanguage', languages[0]);
