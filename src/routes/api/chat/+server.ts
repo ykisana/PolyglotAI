@@ -69,7 +69,7 @@ export const POST: RequestHandler = async ({ request }) => {
 		}
 
 		const messages: ChatCompletionRequestMessage[] = [
-			{ role: 'system', content: prompt },
+			{ role: 'system', content: prompt(requestData.language) },
 			...reqMessages
 		];
 
