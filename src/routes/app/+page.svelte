@@ -2,8 +2,12 @@
 	import { createEventSource } from '$lib/util/EventSource';
 	import ChatBubble from '$lib/components/ChatBubble.svelte';
 	import { ChatManager, messageType } from '$lib/store/ChatManager';
+	import type { PageData } from './$types';
 
-	const chatManager = new ChatManager();
+	export let data: PageData;
+
+	const chatManager = new ChatManager(data.supabase);
+
 	const { messagesWithVocab } = chatManager;
 	const scrollToBottom = (node: HTMLDivElement) => {
 		node.scroll({ top: node.scrollHeight, behavior: 'smooth' });
@@ -11,7 +15,7 @@
 	let chatElement: HTMLDivElement;
 	const submitChat = async () => {
 		chatManager.loading = true;
-		chatManager.addUserMessage();
+		await chatManager.addUserMessage();
 
 		const eventSource = createEventSource(chatManager.chatMessages, messageType.CHAT);
 
