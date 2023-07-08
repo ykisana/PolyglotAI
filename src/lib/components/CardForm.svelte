@@ -9,6 +9,7 @@
 	export let title: string;
 </script>
 
+
 <div class="card w-96 bg-primary text-primary-content">
 	<div class="card-body">
 		<h2 class="card-title self-center">{title}</h2>
@@ -28,3 +29,10 @@
 		<slot />
 	</div>
 </div>
+
+
+<style>
+	input {
+		background-color: white;
+	}
+</style>
